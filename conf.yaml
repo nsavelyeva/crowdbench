@@ -1,0 +1,15 @@
+hosts:
+- folder: /home/user1/crowdbench/slave-1
+  host: 192.168.1.21
+  password: user1password
+  python3: /usr/local/bin/python3.6
+  ssh_port: 22
+  username: user1
+  web_port: 8081
+- folder: /home/user2/crowdbench/slave-2
+  host: 192.168.1.22
+  password: user2password
+  python3: /usr/local/bin/python3.6
+  ssh_port: 22
+  username: user2
+  web_port: 8082

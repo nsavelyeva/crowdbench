@@ -1,0 +1,23 @@
+{% macro render_multi_field(field) %}
+    <div class="form-group">
+        
+        <table>
+        {% for subfield in field %}
+        <tr><td colspan="8"><h5>Slave host # {{ loop.index }}</h5></td></tr>
+        <tr valign="top">
+            {% for item in subfield %}
+            <td><b>{% if item.type != 'SubmitField' %}{{ item.label }}{% endif %}</b><br>
+                {{ item(**kwargs)|safe }}
+                <br>{% if item.errors %}
+                    {% for error in item.errors %}
+                        <p class="error_class">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </td>
+            
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endmacro %}

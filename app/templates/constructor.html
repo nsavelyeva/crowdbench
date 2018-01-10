@@ -1,0 +1,23 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+{% from "_constructor.html" import render_multi_field %}
+
+    <h3>Please fill in the form</h3>
+
+        <form method="POST" class="form-horizontal">
+            {% for field in form.__dict__._fields.keys() %}
+                {{ render_multi_field(form[field]) }}
+            {% endfor %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input id="load_starter" name="load_starter" type="hidden" value="">
+                    <a class="btn btn-default" href="javascript:history.back()">Back</a>
+                    <button type="submit" class="btn btn-default" onclick="javascript:document.getElementById('load_starter').value='start';submit()">Submit</button>
+                </div>
+            </div>
+        </form>
+
+
+{% endblock %}

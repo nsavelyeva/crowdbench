@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <title>CrowdBench - a benchmark tool to simulate user behavior</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" type="image/png" href="/static/pic/favicon.png">
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+	<style type="text/css">
+		html {
+			overflow-y: scroll;
+		}
+		body {
+			margin-top: .2em;
+			margin-bottom: 1em;
+		}
+		.form-rows .btn-info {
+			width: 22%
+		}
+		.container {
+			background-color: rgba(255,255,255,0.5);
+		}
+		.nav-pic {
+			height: 3em;
+			float: left;
+			opacity: .8;
+		}
+		.navbar {
+			margin-bottom: .3em;
+		}
+		.nav-link {
+			font-size: 1.4em;
+			font-weight: bold;
+			font-variant-caps: titling-case;
+		}
+		.header-pic {
+			height: auto;
+			text-align: right;
+		}
+		.header-pic-right {
+			height: 6em;
+			float: right;
+		}
+		.navbar-nav .nav-item {
+			justify-content: flex-end;
+			margin-left: 2em;
+		}
+		#msg {
+			opacity: 0.4;
+			position: fixed;
+			bottom: 0;
+			right: .2em;
+			color: blue;
+			background-color: rgba(255,255,255,0.5);
+		}
+		#msg:hover {
+			opacity: 1;
+		}
+		#statistics {
+			text-align: center;
+			color: gray;
+		}
+		label {margin-bottom: 0 !important}
+	</style>
+	<script src="/static/js/amcharts/amcharts.js"></script>
+	<script src="/static/js/amcharts/serial.js"></script>
+	<!--script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script-->
+    <script src="/static/js/amcharts/plugins/export/export.min.js"></script>
+	<!--link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" /-->
+    <link rel="stylesheet" href="/static/js/amcharts/plugins/export/export.css" type="text/css" media="all" />
+	<!--script src="https://www.amcharts.com/lib/3/themes/light.js"></script-->
+    <script src="/static/js/amcharts/themes/light.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light manual-bg">
+				<a class="navbar-brand" href="#" class="manual-bg"><img src="/static/pic/favicon.png" class="nav-pic"></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarColor03">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="/testruns/list">List</a></li>
+						<li class="nav-item"><a class="nav-link" href="/testruns/new">New</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/install">Configure</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+					</ul>
+				</div>
+			</nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible" role="alert" width="100%">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>{{ category | title }}!</strong> {{ message | safe}}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+        <p id="msg"></p>
+        <script src="/static/js/jquery-3.2.1.min.js"></script>
+        <script src="/static/js/popper.min.js"></script>
+        <script src="/static/js/bootstrap.min.js" ></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/crowdbench.js') }}"></script>
+</body>
+</html>

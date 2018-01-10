@@ -1,0 +1,39 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">View TestRun '{{ testrun['title'] }}'</div>
+    <div class="panel-body">
+
+        <form id="delete_item_form" name="delete_item_form" action="./../delete/" method="POST">
+            <input id="item" name="item" type="hidden" value="">
+        </form>
+
+        <p>
+            <a class="btn btn-default" href="./../edit/{{ testrun['id'] }}">Edit</a>
+            <a class="btn btn-default" href="javascript:document.getElementById('item').value={{ testrun['id'] }};document.getElementById('delete_item_form').submit();">Delete</a>
+            <a class="btn btn-default" href="javascript:history.back()">Back</a>
+        </p>
+
+        <table class="table table-striped">
+            <tr><th>Property</th><th>Value</th></tr>
+            <tr><td>TestRun id</td><td>{{ testrun['id'] }}</td></tr>
+            <tr><td>Title</td><td>{{ testrun['title'] }}</td></tr>
+            <tr><td>Submitted</td><td>{{ testrun['submitted'] }}</td></tr>
+            <tr><td>Completed</td><td>{{ testrun['completed'] }}</td></tr>
+            <tr><td>Status</td><td>{{ testrun_status }}</td></tr>
+            <tr><td>Comment</td><td>{{ testrun['comment'] }}</td></tr>
+            <tr><td>Description</td><td><pre><code>{{ testrun['description'] }}</code></pre></td></tr>
+        </table>
+
+        <p>
+            <a class="btn btn-default" href="./../edit/{{ testrun['id'] }}">Edit</a>
+            <a class="btn btn-default" href="javascript:document.getElementById('item').value={{ testrun['id'] }};document.getElementById('delete_item_form').submit();">Delete</a>
+            <a class="btn btn-default" href="javascript:history.back()">Back</a>
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}

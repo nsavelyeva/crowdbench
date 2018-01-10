@@ -1,0 +1,54 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+
+<section class="container py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Monitoring Test Run # {{ test_run_id }}</h2>
+                <ul id="tabsJustified" class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="" data-target="#slaves_total"
+                           data-toggle="tab" class="nav-link small text-uppercase active"
+                           onclick="javascript:document.getElementById('slave').value='total';document.getElementById('web_port').value='';update_graph();">ALL</a>
+                    </li>
+                    {% for slave in slaves %}
+                    <li class="nav-item">
+                        <a href="" data-target="#{{ slave['host'].replace('.', '_') }}"
+                           data-toggle="tab" class="nav-link small text-uppercase"
+                           onclick="javascript:document.getElementById('slave').value='{{ slave['host'] }}';document.getElementById('web_port').value='{{ slave['web_port'] }}';update_graph();">{{ slave['host'] }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <table>
+                <tr><td>Test status: </td><td><span id="status"></span></td></tr>
+                <tr><td>Test started: </td><td><span id="started"></span></td></tr>
+                <tr><td>Test finished: </td><td><span id="finished"></span></td></tr>
+                <tr><td>Test progress: </td><td><span id="progress"></span> out of {{ duration }} seconds</td></tr>
+                </table>
+                <input id="slave" type="hidden" value="total">
+                <input id="web_port" type="hidden" value="{{ slaves[0]['web_port'] }}">
+                <input id="test_run_id" type="hidden" value="{{ test_run_id }}">
+                <table>
+                    <tr>
+                        <td><div id="chartdiv" style="width: 800px; height: 400px;"></div></td>
+                        <td valign="top">
+                            <input type="radio" name="y_axis" value="aops" checked title="Atomic operations per second">Atomic operations per second<br>
+                            <input type="radio" name="y_axis" value="tcas" title="Transactions completed at second">Transactions completed at second<br>
+                            <input type="radio" name="y_axis" value="avgl" title="Average operations latency">Average operations latency<br>
+                            <input type="radio" name="y_axis" value="avgd" title="Average transaction duration">Average transaction duration<br>
+                            <div id="actions_list">
+                        {% for action in actions %}
+                          <br><input name="{{ action }}" type="checkbox" value="{{ action }}" checked>{{ action }}
+                        {% endfor %}
+                        </div></td>
+                    </tr>
+                </table>
+                <br><div id="summary"></div>
+                <br><div id="debug"></div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

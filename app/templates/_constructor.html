@@ -1,0 +1,22 @@
+{% macro render_multi_field(field) %}
+    <div class="form-group">
+
+        <table>
+        {% for subfield in field %}
+
+            {% for item in subfield %}
+            <tr><td><b>{% if item.type != 'SubmitField' %}{{ item.label }}{% else %}&nbsp;{% endif %}</b></td>
+                <td>{{ item(**kwargs)|safe }}
+                {% if item.errors %}
+                    {% for error in item.errors %}
+                        <p class="error_class">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+        {% endfor %}
+        </table>
+    </div>
+{% endmacro %}
