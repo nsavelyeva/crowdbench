@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser(description='Start CrowdBench app.')
 parser.add_argument('-s', '--server', default='0.0.0.0',
                     help='IP address of a network interface for CrowdBench to run on.',
                     required=False)
-parser.add_argument('-p', '--port', default=80, type=int,
+parser.add_argument('-p', '--port', default=81, type=int,
                     help='a port number for CrowdBench to listen on.',
                     required=False)
 parser.add_argument('-v', '--verbose', default=False, type=bool,

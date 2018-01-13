@@ -8,28 +8,28 @@ class ServerForm(Form):
     """A class describing a form for one slave host."""
     host = StringField('Host',
                        [validators.DataRequired(), validators.IPAddress()],
-                       default='127.0.0.1', render_kw={'size': 15})
+                       default='127.0.0.1', render_kw={'size': 15, 'class': 'form-control form-control-sm'})
     ssh_port = IntegerField('SSH port',
                             [validators.DataRequired()],
-                            default=22, render_kw={'size': 5})
+                            default=22, render_kw={'size': 5, 'class': 'form-control form-control-sm'})
     username = StringField('SSH User',
                            [validators.DataRequired(), validators.Length(min=1, max=30)],
-                           default='user', render_kw={'size': 15})
+                           default='user', render_kw={'size': 15, 'class': 'form-control form-control-sm'})
     password = PasswordField('Password',
                            [validators.DataRequired(), validators.Length(min=1, max=50)],
                            widget=PasswordInput(hide_value=False),
-                           default='', render_kw={'size': 15})
+                           default='', render_kw={'size': 15, 'class': 'form-control form-control-sm'})
     python3 = StringField('Python 3 location',
                            [validators.DataRequired(), validators.Length(min=8, max=128)],
-                           default='/path/to/python3', render_kw={'size': 20})
+                           default='/path/to/python3', render_kw={'size': 20, 'class': 'form-control form-control-sm'})
     folder = StringField('Desired scripts location',
                            [validators.DataRequired(), validators.Length(min=8, max=128)],
-                           default='/path/to/scripts', render_kw={'size': 20})
+                           default='/path/to/scripts', render_kw={'size': 20, 'class': 'form-control form-control-sm'})
     web_port = IntegerField('Web port',
                             [validators.DataRequired(), validators.NumberRange(80, 9000)],
-                            default=8081, render_kw={'size': 5})
-    clone = SubmitField('Clone')
-    remove = SubmitField('Remove')
+                            default=8081, render_kw={'size': 5, 'class': 'form-control form-control-sm'})
+    clone = SubmitField('Clone', render_kw={'class': 'btn btn-primary btn-sm'})
+    remove = SubmitField('Remove', render_kw={'class': 'btn btn-primary btn-sm'})
 
 
 class ConfigForm(Form):
@@ -102,19 +102,19 @@ class TestViewForm(Form):
 
 class TestStepForm(Form):
     """A class describing a form for one test run step."""
-    locals()['start'] = IntegerField('Start this step at second #',
+    locals()['start'] = IntegerField('Start at second #:',
                        [validators.DataRequired(), validators.NumberRange(0, 600)],
-                       default=0, render_kw={'size': 5, 'readonly': 'readonly'})
-    locals()['duration'] = IntegerField('Step duration (seconds)',
+                       default=0, render_kw={'readonly': 'readonly', 'class': 'form-control form-control-sm'})
+    locals()['duration'] = IntegerField('Duration (seconds):',
                             [validators.DataRequired(), validators.NumberRange(1, 600)],
-                            default=1, render_kw={'size': 5})
+                            default=1, render_kw={'class': 'form-control form-control-sm'})
     for action in tools.collect_actions():
-        locals()[action] = IntegerField('%s: delta users' % action,
+        locals()[action] = IntegerField('%s:<br>delta users' % action,
                             [validators.DataRequired(), validators.NumberRange(-5000, 5000)],
                             description='Use positive integers to add users, negative - to remove',
-                            default=0, render_kw={'size': 5})
-    clone = SubmitField('Clone')
-    remove = SubmitField('Remove')
+                            default=0, render_kw={'class': 'form-control form-control-sm'})
+    clone = SubmitField('Clone', render_kw={'class': 'btn btn-primary btn-sm btn-block'})
+    remove = SubmitField('Remove', render_kw={'class': 'btn btn-primary btn-sm btn-block'})
 
 
 class TestRunForm(Form):

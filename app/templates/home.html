@@ -2,58 +2,72 @@
 
 {% block content %}
 
-<pre>
-A Flask application for distributed load testing in terms of web-users behavior simulation.
+<p>A Flask application for distributed load testing in terms of web-users behavior simulation.
 Master node 'talks' to slaves through SSH for code deployment and deleting old test run files.
-Test run data are collected from slaves' monitoring agents through HTTP (AJAX).
+Test run data are collected from slaves' monitoring agents through HTTP (AJAX)</p>
+<h3>Tools</h3>
+<ul>
+     <li>Back-end (master): Flask + Flask-SQLAlchemy + Flask-WTForms, paramiko_expect, threading.</li>
+     <li>Back-end (slaves): asyncio, aiohttp, multiprocessing, bottle.</li>
+     <li>Database: SQLite + SQLAlchemy on master, SQLite on each slave.</li>
+     <li>Frontend: Bootstrap 4 + amCharts + jQuery + Font Awesome and Jinja-templates.</li>
+</ul>
 
-Tools:
- * Back-end (master): Flask + Flask-SQLAlchemy + Flask-WTForms, paramiko_expect, threading.
- * Back-end (slaves): asyncio, aiohttp, multiprocessing, bottle.
- * Database: SQLite + SQLAlchemy on master, SQLite on each slave.
- * Frontend: Bootstrap 4 + amCharts + jQuery + Font Awesome and Jinja-templates.
+<h3>Usage</h3>
+<ul>
+     <li>Put the code of user actions into app/engine/actions.py as described in example actions.</li>
+     <li>If your actions rely on user identifiers - put them into app/engine/users.txt.</li>
+     <li>Launch run.py and open http://127.0.0.1 in browser - this will be a master node.</li>
+     <li>Navigate to http://127.0.0.1/install to set-up slave nodes.<br>
+     <em>Note: you may need to install python packages on slaves manually - follow validation errors.</em></li>
+     <li>Construct a test run at http://127.0.0.1/testruns/new and you will be redirected to a monitoring page.</li>
+     <li>List existing test runs and modify/delete them if needed at http://127.0.0.1/testruns/list.</li>
+</ul>
+<h3>Implemented</h3>
+<ul>
+     <li>Installation - deployment onto slaves if settings are valid:</li>
+          <ul>
+               <li>define slaves using constructor form at /install.</li>
+               <li>settings validation: SSH connectivity, packages, python version, port for monitoring agents.</li>
+               <li>files will be copied automatically onto slaves, in parallel.</li>
+               <li>monitoring agents will be (re)started on all slaves, in parallel.</li>
+          </ul>
+     <li>Construct a test run based on existing actions + settings validation + detailed test description.</li>
+     <li>Monitor a test run on-the-fly:</li>
+          <ul>
+               <li>display statistics & charts, separately failed/passed/incomplete operations, grouped errors.</li>
+               <li>display aggregated data from all slaves and separately for each slave.</li>
+               <li>charts filtering/switching.</li>
+               <li>collect debug info from slaves and display it on monitoring page.</li>
+          </ul>
+     <li>List existing test runs with navigation to quick view, deep view, edit, removal and monitoring.</li>
+</ul>
 
-Usage:
- * Put the code of user actions into app/engine/actions.py as described in example actions.
- * If your actions rely on user identifiers - put them into app/engine/users.txt.
- * Launch run.py and open http://127.0.0.1 in browser - this will be a master node.
- * Navigate to http://127.0.0.1/install to set-up slave nodes.
-   Note: you may need to install python packages on slaves manually - follow validation errors.
- * Construct a test run at http://127.0.0.1/testruns/new and you will be redirected to a monitoring page.
- * List existing test runs and modify/delete them if needed at http://127.0.0.1/testruns/list.
-
-Implemented:
- * Installation - deployment onto slaves if settings are valid:
-     - define slaves using constructor form at /install
-     - settings validation: SSH connectivity, packages, python version, port for monitoring agents.
-     - files will be copied automatically onto slaves, in parallel.
-     - monitoring agents will be (re)started on all slaves, in parallel.
- * Construct a test run based on existing actions + settings validation + detailed test description.
- * Monitor a test run on-the-fly:
-     - display statistics & charts, separately failed/passed/incomplete operations, grouped errors.
-     - display aggregated data from all slaves and separately for each slave.
-     - charts filtering/switching.
-     - collect debug info from slaves and display it on monitoring page.
- * List existing test runs with navigation to quick view, deep view, edit, removal and monitoring.
-
-TODO:
- * Improve app architecture.
- * Collect and group test run errors, save them in the database once test run is finished.
- * Re-run existing test run as a new test run.
- * Support parallel test runs on different sets of slaves.
- * Add more info onto web-pages (tips, notes, etc.).
- * Implement a view to upload actions.py and users.txt, including validation.
- * Implement on-demand stopping monitoring agents on slaves.
- * Improve app stability (e.g. display messages if something has failed or missing), cover:
-     - code (re)deployment, start/stop monitoring agents, if a test run aborts externally, etc.
- * Improve page markup to make the app good-looking.
- * Refactor and optimize the code
-     - e.g. create @threaded decorator to run tasks on slaves simultaneously.
- * Add a brief user guide.
- * Document the code.
- * Implement unit tests.
- * Retrospective - compare results to other load testing tools.
- * Other.
-</pre>
+<h3>TODO</h3>
+<ul>
+     <li>Improve app architecture.</li>
+     <li>Collect and group test run errors, save them in the database once test run is finished.</li>
+     <li>Re-run existing test run as a new test run.</li>
+     <li>Support parallel test runs on different sets of slaves.</li>
+     <li>Add more info onto web-pages (tips, notes, etc.).</li>
+     <li>Implement a view to upload actions.py and users.txt, including validation.</li>
+     <li>Implement on-demand stopping monitoring agents on slaves.</li>
+     <li>Improve app stability (e.g. display messages if something has failed or missing), cover:
+          <ul>
+               <li>code (re)deployment, start/stop monitoring agents, if a test run aborts externally, etc.</li>
+          </ul>
+     </li>
+     <li>Improve page markup to make the app good-looking.</li>
+     <li>Refactor and optimize the code
+          <ul>
+               <li>e.g. create @threaded decorator to run tasks on slaves simultaneously.</li>
+          </ul>
+     </li>
+     <li>Add a brief user guide.</li>
+     <li>Document the code.</li>
+     <li>Implement unit tests.</li>
+     <li>Retrospective - compare results to other load testing tools.</li>
+     <li>Other.</li>
+</ul>
 
 {% endblock %}

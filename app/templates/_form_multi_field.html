@@ -1,9 +1,8 @@
 {% macro render_multi_field(field) %}
     <div class="form-group">
-        
-        <table>
         {% for subfield in field %}
-        <tr><td colspan="8"><h5>Slave host # {{ loop.index }}</h5></td></tr>
+        <table  width="100%" class="bg-light" style="border: 1px solid lightgrey; margin-bottom: .2em">
+        <tr><td colspan="9"><h5>Slave host # {{ loop.index }}</h5></td></tr>
         <tr valign="top">
             {% for item in subfield %}
             <td><b>{% if item.type != 'SubmitField' %}{{ item.label }}{% endif %}</b><br>
@@ -17,7 +16,8 @@
             
             {% endfor %}
         </tr>
+       </table>
         {% endfor %}
-        </table>
+        
     </div>
 {% endmacro %}
