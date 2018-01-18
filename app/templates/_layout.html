@@ -46,6 +46,10 @@
 			justify-content: flex-end;
 			margin-left: 2em;
 		}
+		[for$="duration"],
+		[for$="ActionExample"],
+		[for$="ActionSample"]
+		 {margin-left: 1em}
 		#msg {
 			opacity: 0.4;
 			position: fixed;
@@ -61,7 +65,13 @@
 			text-align: center;
 			color: gray;
 		}
+		nav,
+		table, [class~="alert"] 
+		 {
+			box-shadow: .2em .2em 2em .2em lightgrey;
+		}
 		label {margin-bottom: 0 !important}
+		.container {background-color: rgba(200,200,200,.3);}
 	</style>
 	<script src="/static/js/amcharts/amcharts.js"></script>
 	<script src="/static/js/amcharts/serial.js"></script>
