@@ -5,8 +5,6 @@ import telnetlib
 import socket
 import paramiko
 import paramiko_expect
-from multiprocessing.dummy import Pool as ThreadPool
-from queue import Queue
 from .engine import actions  # do not remove - required for collect_actions()
 
 

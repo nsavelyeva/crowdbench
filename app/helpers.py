@@ -93,11 +93,9 @@ def update_constructor_form(form):
         start += entry.duration.data
     return form, msg
 
-# TODO: create a decorator @tools.threaded
 def deploy_slaves(files):
     """Deploy all slaves in parallel using multiple threads. TODO: decorator for threading."""
     queue = Queue()
-
     args = []
     for cnf in etools.load_conf('conf.yaml'):
         args.append((cnf, files, queue))
@@ -105,14 +103,8 @@ def deploy_slaves(files):
     results = pool.starmap(deploy_slave, args)
     pool.close()
     pool.join()
-
-    #for host in etools.load_conf('conf.yaml'):
-    #    thread = Thread(target=deploy_slave, args=(host, files, queue))
-    #    thread.start()
-    #    thread.join()
     errors = tools.collect_threads_results(queue)
     return errors
-
 
 def deploy_slave(cnf, files, queue):
     """Run OS commands on a slave host through SSH to create folders and start monitoring agent."""
@@ -127,8 +119,6 @@ def deploy_slave(cnf, files, queue):
         if not errors:
             cmd = 'cd %s && nohup %s monitor.py --server=%s --port=%s > monitor.log && disown\n' % \
                   (cnf['folder'], cnf['python3'], cnf['host'], cnf['web_port'])
-
-
             errors = tools.ssh_interact(ssh, cnf, cmd, 'Started')
     for error in errors:
         queue.put(error)
@@ -177,7 +167,6 @@ def start_slaves(obj):
     with open(abs_path, 'w') as _f:
         _f.write(json.dumps(obj.part, sort_keys=True, indent=4))
     queue = Queue()
-
     args = []
     for cnf in etools.load_conf('conf.yaml'):
         cmd = 'slave.py -n=%s -t=%s -f=%s/%s' % (cnf['host'], obj.test_run_id, cnf['folder'], fname)
@@ -186,12 +175,6 @@ def start_slaves(obj):
     results = pool.starmap(start_slave, args)
     pool.close()
     pool.join()
-    #for cnf in etools.load_conf('conf.yaml'):
-    #    cmd = 'slave.py -n=%s -t=%s -f=%s/%s' % (cnf['host'], obj.test_run_id, cnf['folder'], fname)
-    #    thread = Thread(target=start_slave, args=(cnf, obj.test_run_id, cmd, queue))
-    #    thread.start()
-    #    thread.join()
-
     errors = tools.collect_threads_results(queue)
     if os.path.isfile(abs_path):
         os.remove(abs_path)
@@ -271,11 +254,10 @@ def monitor_slave(url, queue):
     body = body[body.find('(') + 1:body.rfind(')')]
     result = json.loads(body)
     if '_get_chartdata' in url:
-        total = {item['timestamp']:
-                 {'failed': item['failed'],
-                  'passed': item['passed'],
-                  'incomplete': item['incomplete']}
-             for item in result['total']}
+        total = {item['timestamp']: {'failed': item['failed'],
+                                     'passed': item['passed'],
+                                     'incomplete': item['incomplete']}
+                for item in result['total']}
         result['total'] = total
     elif '_get_summary' in url:
         result = {item['reason']: {'code': item['code'], 'count': item['count']} for item in result}
